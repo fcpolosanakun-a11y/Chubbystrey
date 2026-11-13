@@ -1829,6 +1829,36 @@
      "price": 35000
     }
    ]
+  },
+  {
+   "name": "DEEZER",
+   "category": "Music",
+   "plans": [
+    {
+     "label": "Indplan (email seller only)",
+     "head": true
+    },
+    {
+     "label": "1 bulan",
+     "price": 25000
+    },
+    {
+     "label": "2 bulan",
+     "price": 40000
+    },
+    {
+     "label": "Famplan (email Cust/seller)",
+     "head": true
+    },
+    {
+     "label": "1 bulan",
+     "price": 20000
+    },
+    {
+     "label": "2 bulan",
+     "price": 33000
+    }
+   ]
   }
  ]
 }
