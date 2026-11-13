@@ -1913,6 +1913,56 @@
      "head": true
     }
    ]
+  },
+  {
+   "name": "MEITU",
+   "category": "Editing",
+   "plans": [
+    {
+     "label": "Sharing VIP",
+     "head": true
+    },
+    {
+     "label": "14 hari",
+     "price": 22000
+    },
+    {
+     "label": "Sharing VIP+",
+     "head": true
+    },
+    {
+     "label": "14 hari",
+     "price": 28000
+    },
+    {
+     "label": "Private VIP",
+     "head": true
+    },
+    {
+     "label": "7 hari",
+     "price": 20000
+    },
+    {
+     "label": "14 hari",
+     "price": 36000
+    },
+    {
+     "label": "Private VIP+",
+     "head": true
+    },
+    {
+     "label": "7 hari",
+     "price": 25000
+    },
+    {
+     "label": "14 hari",
+     "price": 38000
+    },
+    {
+     "label": "Apabila VIP/VIP+ tidak muncul di ios ataupun android, maka diharuskan untuk pindah device. NO REFUND‼️",
+     "head": true
+    }
+   ]
   }
  ]
 }
