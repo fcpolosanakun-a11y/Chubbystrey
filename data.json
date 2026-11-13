@@ -1204,19 +1204,19 @@
     },
     {
      "label": "1 bulan",
-     "price": 18000
+     "price": 20000
     },
     {
      "label": "3 bulan",
-     "price": 28000
+     "price": 35000
     },
     {
      "label": "4 bulan",
-     "price": 38000
+     "price": 45000
     },
     {
      "label": "1 tahun",
-     "price": 100000
+     "price": 110000
     }
    ]
   },
@@ -1857,6 +1857,24 @@
     {
      "label": "2 bulan",
      "price": 33000
+    }
+   ]
+  },
+  {
+   "name": "BUSUU",
+   "category": "Education",
+   "plans": [
+    {
+     "label": "Private",
+     "head": true
+    },
+    {
+     "label": "14 hari",
+     "price": 25000
+    },
+    {
+     "label": "1 bulan",
+     "price": 38000
     }
    ]
   }
