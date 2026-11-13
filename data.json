@@ -1877,6 +1877,20 @@
      "price": 38000
     }
    ]
+  },
+  {
+   "name": "OLDROLL",
+   "category": "Editing",
+   "plans": [
+    {
+     "label": "Sharing",
+     "head": true
+    },
+    {
+     "label": "Lifetime",
+     "price": 35000
+    }
+   ]
   }
  ]
 }
