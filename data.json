@@ -1891,6 +1891,28 @@
      "price": 35000
     }
    ]
+  },
+  {
+   "name": "STRAVA PREMIUM",
+   "category": "Others",
+   "plans": [
+    {
+     "label": "1 bulan",
+     "price": 25000
+    },
+    {
+     "label": "2 bulan",
+     "price": 38000
+    },
+    {
+     "label": "3 bulan",
+     "price": 50000
+    },
+    {
+     "label": "Durasi diatas 1 bulan, renewal",
+     "head": true
+    }
+   ]
   }
  ]
 }
