@@ -2017,7 +2017,11 @@
      "head": true
     },
     {
-     "label": "Credits untuk check AI Indo, AI English, Plagiarisme sebesar 300x check Bisa cek AI dengan sejumlah karakter maksimal 50.000 karakter",
+     "label": "Credits untuk check AI Indo, AI English, Plagiarisme sebesar 300x check.",
+     "head": true
+    },
+    {
+     "label": "Bisa cek AI dengan sejumlah karakter maksimal 50.000 karakter.",
      "head": true
     }
    ]
