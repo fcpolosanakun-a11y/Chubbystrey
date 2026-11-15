@@ -2027,7 +2027,7 @@
    ]
   },
   {
-   "name": "Zerogpt",
+   "name": "ZEROGPT",
    "category": "Education",
    "plans": [
     {
@@ -2049,6 +2049,54 @@
     {
      "label": "Akun seller only",
      "head": true
+    }
+   ]
+  },
+  {
+   "name": "GAGAOOLALA",
+   "category": "Streaming",
+   "plans": [
+    {
+     "label": "Sharing",
+     "head": true
+    },
+    {
+     "label": "1 bulan",
+     "price": 18000
+    },
+    {
+     "label": "3 bulan",
+     "price": 48000
+    }
+   ]
+  },
+  {
+   "name": "NORDVPN",
+   "category": "Others",
+   "plans": [
+    {
+     "label": "Sharing",
+     "head": true
+    },
+    {
+     "label": "7 hari",
+     "price": 15000
+    },
+    {
+     "label": "1 bulan",
+     "price": 25000
+    },
+    {
+     "label": "Private",
+     "head": true
+    },
+    {
+     "label": "7 hari",
+     "price": 20000
+    },
+    {
+     "label": "1 bulan",
+     "price": 45000
     }
    ]
   }
