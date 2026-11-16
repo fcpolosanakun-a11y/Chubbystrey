@@ -8,7 +8,7 @@
   "hours": {
    "open": "09:00",
    "close": "21:00",
-   "closed": false,
+   "closed": true,
    "pauseUntil": 0
   }
  },
