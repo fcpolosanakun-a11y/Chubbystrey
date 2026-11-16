@@ -8,8 +8,8 @@
   "hours": {
    "open": "09:00",
    "close": "21:00",
-   "closed": true,
-   "pauseUntil": 0
+   "closed": false,
+   "pauseUntil": 1794832500000
   }
  },
  "products": [
