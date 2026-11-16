@@ -3,7 +3,13 @@
   "whatsapp": "628816781623",
   "x": "https://x.com/chubbysstreyzy",
   "telegram": "https://t.me/testichubbysstrey",
-  "spotify": ""
+  "spotify": "",
+  "theme": "sun",
+  "hours": {
+   "open": "09:00",
+   "close": "21:00",
+   "closed": false
+  }
  },
  "products": [
   {
