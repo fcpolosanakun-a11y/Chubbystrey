@@ -9,7 +9,7 @@
    "open": "06:00",
    "close": "21:00",
    "closed": false,
-   "pauseUntil": 1794903300000
+   "pauseUntil": 0
   }
  },
  "products": [
@@ -527,7 +527,27 @@
     },
     {
      "label": "3 hari",
-     "price": 12000
+     "price": 10000
+    },
+    {
+     "label": "7 hari",
+     "price": 15000
+    },
+    {
+     "label": "1 Bulan",
+     "price": 26000
+    },
+    {
+     "label": "Private",
+     "head": true
+    },
+    {
+     "label": "3 hari",
+     "price": 14000
+    },
+    {
+     "label": "5 hari",
+     "price": 16000
     },
     {
      "label": "7 hari",
@@ -535,15 +555,7 @@
     },
     {
      "label": "1 Bulan",
-     "price": 28000
-    },
-    {
-     "label": "Private",
-     "head": true
-    },
-    {
-     "label": "1 Bulan",
-     "price": 35000
+     "price": 34000
     }
    ]
   },
