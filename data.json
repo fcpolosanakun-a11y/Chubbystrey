@@ -9,7 +9,7 @@
    "open": "06:00",
    "close": "21:35",
    "closed": false,
-   "pauseUntil": 1794989700000
+   "pauseUntil": 0
   }
  },
  "products": [
@@ -983,11 +983,11 @@
    "plans": [
     {
      "label": "IPAD LIFETIME",
-     "price": 35
+     "price": 35000
     },
     {
      "label": "POCKET IOS LIFETIME",
-     "price": 33
+     "price": 33000
     }
    ]
   },
@@ -1147,7 +1147,7 @@
     },
     {
      "label": "1 bulan",
-     "price": 23000
+     "price": 25000
     }
    ]
   },
