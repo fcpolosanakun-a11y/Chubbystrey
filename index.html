@@ -207,6 +207,9 @@ html[data-skin="moon"] .dots,html[data-skin="moon"] .hrs,html[data-skin="moon"] 
 html[data-skin="moon"] .sheet{box-shadow:0 8px 0 rgba(115,132,230,.45)}
 html[data-skin="moon"] .ap{background:var(--lav)}
 .tpop button{width:88px}
+.disc{margin:0 0 12px;padding:10px 16px;max-width:340px;border-radius:18px;font:600 13.5px/1.45 'Fredoka';text-align:center;background:linear-gradient(135deg,#FFE6F0,#FFF3C6);border:2px dashed #FF8FB0;color:#7a3552;box-shadow:0 4px 0 rgba(255,143,176,.32)}
+.pl b.dc{display:inline-flex;flex-direction:column;align-items:center;line-height:1.1;padding-top:2px;padding-bottom:3px}
+.pl b.dc small{font-size:10px;font-weight:500;opacity:.85}
 .mbtn{position:fixed;right:14px;bottom:calc(38px + env(safe-area-inset-bottom,0px));z-index:31;width:46px;height:46px;border-radius:50%;border:3px solid var(--purple);background:#fff;font-size:20px;cursor:pointer;box-shadow:0 4px 0 var(--purple);transition:transform .15s}
 .mbtn:active{transform:translateY(3px);box-shadow:none}
 .mbtn.off{opacity:.75}
@@ -273,6 +276,7 @@ html[data-skin="moon"] #deco::before{background-image:url("data:image/svg+xml,%3
   <div class="welcome">Welcome to Chubbysstrey! 💗</div>
   <p class="bubble">Halloo, cutie! 💗 Selamat datang di Chubbysstrey. Tempatnya berburu aplikasi premium dengan harga ramah di kantong. Yuk, pilih kebutuhan digitalmu dan happy shopping!</p>
   <div class="hrs" data-hrs></div>
+  <div class="disc" data-disc hidden></div>
   <div class="btns">
    <button class="btn p" onclick="go(1)">Start Shopping 🛍️</button>
    <button class="btn b" onclick="toContact()">Contact Us 💌</button>
@@ -297,6 +301,7 @@ html[data-skin="moon"] #deco::before{background-image:url("data:image/svg+xml,%3
   <div class="top"><button class="homebtn" onclick="go(0)" aria-label="Home">🏠</button><h1 class="t">Pricelist App Premium 💜</h1><span class="mw"><img id="mini" alt=""></span></div>
   <p class="st">Find your favorite apps here!</p>
   <div class="hrs" data-hrs style="margin:0 0 12px"></div>
+  <div class="disc" data-disc hidden></div>
   <input class="search" id="q" type="search" placeholder="🔍 Cari aplikasi favoritmu...">
   <div class="chips" id="chips"></div>
   <div class="grid" id="grid"></div>
@@ -332,6 +337,13 @@ var CATS=["All","Streaming","Editing","Education","Music","Others"];
 
 /* ===== jam operasional (WIB) ===== */
 var wasOpen=null;
+var wasDisc=null;
+function dsc(){var d=CONFIG.discount||{};return{on:d.on!==false,pct:Math.min(90,Math.max(1,+d.percent||10)),day:(d.day==null||d.day==="")?5:+d.day,text:(d.text&&String(d.text).trim())?String(d.text).trim():"🎉 Hari Jumat diskon {persen}%! Harga di bawah sudah termasuk potongan diskon ya 💗"}}
+function discOn(){var d=dsc();return d.on&&new Date(Date.now()+25200000).getUTCDay()===d.day}
+function dPrice(n){return Math.round(n*(100-dsc().pct)/10000)*100}
+function priceHtml(pl){if(pl.price==null)return'<b class="ph">RpXX.XXX</b>';if(discOn()&&pl.price>=1000)return'<b class="dc"><small><s>'+rp(pl.price)+'</s></small>'+rp(dPrice(pl.price))+'</b>';return'<b>'+rp(pl.price)+'</b>'}
+function priceTxt(pl){if(pl.price==null)return"(mohon dikonfirmasi)";if(discOn()&&pl.price>=1000)return rp(dPrice(pl.price))+" (harga diskon "+dsc().pct+"%, normal "+rp(pl.price)+")";return rp(pl.price)}
+
 function HRS(){var h=CONFIG.hours||{};return{open:/^\d{1,2}:\d{2}$/.test(h.open||"")?h.open:"09:00",close:/^\d{1,2}:\d{2}$/.test(h.close||"")?h.close:"21:00",closed:!!h.closed,pauseUntil:+h.pauseUntil||0}}
 function pauseActive(h){return !!h.closed||(h.pauseUntil>0&&Date.now()<h.pauseUntil)}
 function tm(t){var a=String(t).split(":");return(+a[0]||0)*60+(+a[1]||0)}
@@ -356,8 +368,10 @@ function paintHours(){
  if(og){og.classList.toggle("off",!open);
   if(open){og.textContent="Order via WhatsApp 💬";og.removeAttribute("aria-disabled");og.href=CONFIG.whatsapp?ogHref():"#"}
   else{og.textContent="Close dulu yaa 💤";og.setAttribute("aria-disabled","true");og.removeAttribute("href")}}
- if(wasOpen!==null&&wasOpen!==open)draw();
- wasOpen=open}
+ var dOn=discOn(),dd=dsc();
+ document.querySelectorAll("[data-disc]").forEach(function(el){el.hidden=!dOn;if(dOn)el.textContent=dd.text.replace(/\{persen\}/g,dd.pct)});
+ if((wasOpen!==null&&wasOpen!==open)||(wasDisc!==null&&wasDisc!==dOn))draw();
+ wasOpen=open;wasDisc=dOn}
 
 
 /* ===== sosial media ===== */
@@ -376,13 +390,13 @@ CATS.forEach(function(c){var b=document.createElement("button");b.className="chi
 function draw(){
  var k=q.value.trim().toLowerCase();
  var list=PRODUCTS.filter(function(p){return(cat==="All"||p.category===cat)&&p.name.toLowerCase().indexOf(k)>-1});
- grid.innerHTML=list.length?list.map(function(p){return'<article class="card"><h3>'+esc(p.name)+'</h3><ul class="pl">'+p.plans.map(function(pl,j){if(pl.head)return'<li class="hd">'+esc(pl.label)+'</li>';return'<li><span>'+esc(pl.label)+'</span><b'+(pl.price==null?' class="ph"':'')+'>'+(pl.price==null?"RpXX.XXX":rp(pl.price))+'</b>'+orderBtn(PRODUCTS.indexOf(p),j)+'</li>'}).join("")+'</ul></article>'}).join(""):'<div class="empty">Yah, belum ketemu 🥺 Coba kata kunci lain ya!</div>';
+ grid.innerHTML=list.length?list.map(function(p){return'<article class="card"><h3>'+esc(p.name)+'</h3><ul class="pl">'+p.plans.map(function(pl,j){if(pl.head)return'<li class="hd">'+esc(pl.label)+'</li>';return'<li><span>'+esc(pl.label)+'</span>'+priceHtml(pl)+orderBtn(PRODUCTS.indexOf(p),j)+'</li>'}).join("")+'</ul></article>'}).join(""):'<div class="empty">Yah, belum ketemu 🥺 Coba kata kunci lain ya!</div>';
 }
 function waLink(i,j){
  var p=PRODUCTS[i],pl=p.plans[j],g="";
  for(var k=j-1;k>=0;k--){if(p.plans[k].head){g=p.plans[k].label;break}}
  if(!CONFIG.whatsapp)return"#";
- var msg="Hallo chubbystrey! Aku mau order :\n1. Aplikasi : "+p.name+"\n2. Plan : "+(g?g+" - ":"")+pl.label+"\n3. Harga : "+(pl.price==null?"(mohon dikonfirmasi)":rp(pl.price))+"\nApakah app tersebut ready? Kalau ready, aku mau kak! Terimakasih^_^";
+ var msg="Hallo chubbystrey! Aku mau order :\n1. Aplikasi : "+p.name+"\n2. Plan : "+(g?g+" - ":"")+pl.label+"\n3. Harga : "+priceTxt(pl)+"\nApakah app tersebut ready? Kalau ready, aku mau kak! Terimakasih^_^";
  return "https://wa.me/"+CONFIG.whatsapp.replace(/\D/g,"")+"?text="+encodeURIComponent(msg);
 }
 function orderGeneral(){
@@ -425,12 +439,13 @@ function prodForm(p,i){
  '<label>Kategori<select class="f_cat">'+CATS.slice(1).map(function(c){return'<option'+(c===p.category?" selected":"")+'>'+c+'</option>'}).join("")+'</select></label>'+
  '<label>Paket &amp; harga: baris biasa = judul grup (mis. 1p1u, Famplan); baris dengan | = durasi dan harga (mis. 1 Bulan | 45000); harga kosong tampil RpXX.XXX<textarea class="f_plans" rows="4" placeholder="1 Bulan | 25000">'+esc((p.plans||[]).map(function(pl){return pl.head?pl.label:pl.label+" | "+(pl.price==null?"":pl.price)}).join("\n"))+'</textarea></label></div>'}
 function themeForm(){var t=CONFIG.theme==="sun"||CONFIG.theme==="moon"?CONFIG.theme:"lav";return'<h3>Tema Web</h3><label>Tema untuk semua pengunjung<select id="a_th"><option value="lav"'+(t==="lav"?" selected":"")+'>Pretty Lavender 💜</option><option value="sun"'+(t==="sun"?" selected":"")+'>Sunny Orange 🧡</option><option value="moon"'+(t==="moon"?" selected":"")+'>Snowy Moon ❄️ (ada salju &amp; bulan)</option></select></label>'}
+function discForm(){var d=dsc(),days=["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"],o="";days.forEach(function(n,i){o+='<option value="'+i+'"'+(i===d.day?" selected":"")+'>'+n+'</option>'});var custom=(CONFIG.discount&&CONFIG.discount.text)?CONFIG.discount.text:"";return'<h3>Diskon Mingguan</h3><label>Diskon aktif?<select id="a_dn"><option value="1"'+(d.on?" selected":"")+'>Ya</option><option value="0"'+(d.on?"":" selected")+'>Tidak</option></select></label>'+fld("Besar diskon (%)","a_dp",String(d.pct),"10")+'<label>Hari diskon (WIB)<select id="a_dd">'+o+'</select></label><label>Tulisan banner. {persen} otomatis jadi angka diskon. Kosongkan untuk tulisan bawaan<textarea id="a_dt" rows="3" placeholder="🎉 Hari Jumat diskon {persen}%! Harga di bawah sudah termasuk potongan diskon ya 💗">'+esc(custom)+'</textarea></label>'}
 function hoursForm(){var h=HRS(),act=pauseActive(h),pv=(h.pauseUntil&&act)?wibHM(h.pauseUntil).replace(".",":"):"";return'<h3>Jam Operasional (WIB)</h3>'+fld("Jam buka (HH:MM)","a_ho",h.open,"09:00")+fld("Jam tutup (HH:MM). Kalau tutup lewat tengah malam, isi mis. 02:00","a_hc",h.close,"21:00")+'<label>Status toko<select id="a_hm"><option value="0"'+(act?"":" selected")+'>Ikuti jadwal</option><option value="1"'+(act?" selected":"")+'>Close sebentar (buka lagi otomatis)</option></select></label>'+fld("Buka lagi jam (HH:MM). Kosongkan = close terus sampai kamu ubah lagi","a_hp",pv,"mis. 14:30")}
 function ghGet(){try{return JSON.parse(localStorage.getItem("gh")||"{}")}catch(e){return{}}}
 function ghf(){var g=ghGet();return'<label>GitHub repo (contoh: namakamu/chubbysstrey-web)<input id="a_gr" value="'+esc(g.repo||"")+'" placeholder="namakamu/nama-repo"></label><label>Branch (biasanya main)<input id="a_gb" value="'+esc(g.branch||"main")+'"></label><label>Token GitHub (hanya disimpan di perangkat ini)<input id="a_gt" type="password" value="'+esc(g.token||"")+'" placeholder="github_pat_..."></label><button class="btn b" type="button" id="a_cl">Hapus token dari perangkat ini</button>'}
 function openAdm(){
  adm.innerHTML='<div class="sheet"><h2>⚙️ Edit Toko</h2>'+fld("Nomor WhatsApp (628xxxxxxxxxx)","a_wa",CONFIG.whatsapp,"628...")+fld("Link X (Twitter)","a_x",CONFIG.x,"https://x.com/...")+fld("Link Telegram","a_tg",CONFIG.telegram,"https://t.me/...")+fld("Link Spotify (opsional, memunculkan tombol Dengarkan di Spotify)","a_sp",CONFIG.spotify,"https://open.spotify.com/...")+
- themeForm()+hoursForm()+'<h3>Penyimpanan ke GitHub</h3><p class="hint">Isi sekali saja di perangkat ini. Panduan lengkap ada di file PANDUAN.</p>'+ghf()+'<h3>Produk</h3><div id="a_list">'+PRODUCTS.map(prodForm).join("")+'</div><button class="btn b" type="button" id="a_add">+ Tambah Produk</button>'+
+ themeForm()+discForm()+hoursForm()+'<h3>Penyimpanan ke GitHub</h3><p class="hint">Isi sekali saja di perangkat ini. Panduan lengkap ada di file PANDUAN.</p>'+ghf()+'<h3>Produk</h3><div id="a_list">'+PRODUCTS.map(prodForm).join("")+'</div><button class="btn b" type="button" id="a_add">+ Tambah Produk</button>'+
  '<div class="btns"><button class="btn p" type="button" id="a_save">Simpan ke Web 💾</button><button class="btn b" type="button" id="a_cancel">Batal</button></div><p class="hint" id="a_msg"></p></div>';
  adm.hidden=false;
  document.getElementById("a_th").onchange=function(){setSkin(this.value,false)};
@@ -441,7 +456,7 @@ function openAdm(){
 gear.onclick=openAdm;
 async function saveAdm(){
  var msg=document.getElementById("a_msg"),btn=document.getElementById("a_save");
- var pz=document.getElementById("a_hm").value==="1",pv=/^\d{1,2}:\d{2}$/.test(val("a_hp"))?val("a_hp"):"";var cfg={whatsapp:val("a_wa").replace(/\D/g,""),x:val("a_x"),telegram:val("a_tg"),spotify:val("a_sp"),theme:document.getElementById("a_th").value,hours:{open:/^\d{1,2}:\d{2}$/.test(val("a_ho"))?val("a_ho"):"09:00",close:/^\d{1,2}:\d{2}$/.test(val("a_hc"))?val("a_hc"):"21:00",closed:(pz&&!pv),pauseUntil:(pz&&pv)?nextWIB(pv):0}};
+ var pz=document.getElementById("a_hm").value==="1",pv=/^\d{1,2}:\d{2}$/.test(val("a_hp"))?val("a_hp"):"";var cfg={whatsapp:val("a_wa").replace(/\D/g,""),x:val("a_x"),telegram:val("a_tg"),spotify:val("a_sp"),theme:document.getElementById("a_th").value,discount:{on:document.getElementById("a_dn").value==="1",percent:Math.min(90,Math.max(1,parseInt(val("a_dp"),10)||10)),day:+document.getElementById("a_dd").value,text:document.getElementById("a_dt").value.trim()},hours:{open:/^\d{1,2}:\d{2}$/.test(val("a_ho"))?val("a_ho"):"09:00",close:/^\d{1,2}:\d{2}$/.test(val("a_hc"))?val("a_hc"):"21:00",closed:(pz&&!pv),pauseUntil:(pz&&pv)?nextWIB(pv):0}};
  var list=[].map.call(adm.querySelectorAll(".ap"),function(el){
   var old=PRODUCTS[+el.dataset.i]||{};
   var plans=el.querySelector(".f_plans").value.split("\n").map(function(l){return l.trim()}).filter(Boolean).map(function(l){
