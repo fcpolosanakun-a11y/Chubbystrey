@@ -5,11 +5,17 @@
   "telegram": "https://t.me/testichubbysstrey",
   "spotify": "",
   "theme": "moon",
+  "discount": {
+   "on": true,
+   "percent": 10,
+   "day": 5,
+   "text": ""
+  },
   "hours": {
    "open": "06:00",
    "close": "21:35",
    "closed": false,
-   "pauseUntil": 1795080600000
+   "pauseUntil": 0
   }
  },
  "products": [
@@ -2131,6 +2137,54 @@
     },
     {
      "label": "1 bulan",
+     "price": 45000
+    }
+   ]
+  },
+  {
+   "name": "MICROSOFT365",
+   "category": "Editing",
+   "plans": [
+    {
+     "label": "PRIVATE INVITE",
+     "head": true
+    },
+    {
+     "label": "1 bulan",
+     "price": 16000
+    },
+    {
+     "label": "2 bulan",
+     "price": 28000
+    },
+    {
+     "label": "3 bulan",
+     "price": 35000
+    },
+    {
+     "label": "6 bulan",
+     "price": 75000
+    },
+    {
+     "label": "PRIVATE FAMHEAD (bisa invite 5 orang)",
+     "head": true
+    },
+    {
+     "label": "1 bulan",
+     "price": 45000
+    }
+   ]
+  },
+  {
+   "name": "PROCCD",
+   "category": "Editing",
+   "plans": [
+    {
+     "label": "SHARING",
+     "head": true
+    },
+    {
+     "label": "Lifetime (garansi 6b)",
      "price": 45000
     }
    ]
